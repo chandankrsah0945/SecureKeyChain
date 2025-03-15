@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="card">
+            <div class="card-body text-center">
+                <h2>Welcome, {{ username }}!</h2>
+                <a href="{{ url_for('logout') }}" class="btn btn-danger mt-3">Logout</a>
+            </div>
+        </div>
+
+        <div class="mt-4">
+            <h3>Manage Users</h3>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Password</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users %}
+                    <tr>
+                        <td>{{ user.id }}</td>
+                        <td>{{ user.username }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>
+                            <input type="password" id="password-{{ user.id }}" value="{{ user.password }}" class="form-control" readonly>
+                            <button class="btn btn-secondary btn-sm mt-1" onclick="togglePasswordVisibility('{{ user.id }}')">View Password</button>
+                        </td>
+                        <td>
+                            <a href="{{ url_for('update_user', id=user.id) }}" class="btn btn-warning btn-sm">Update</a>
+                            <a href="{{ url_for('delete_user', id=user.id) }}" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this user?');">Delete</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        function togglePasswordVisibility(id) {
+            const passwordInput = document.getElementById('password-' + id);
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+            } else {
+                passwordInput.type = 'password';
+            }
+        }
+    </script>
+</body>
+</html>

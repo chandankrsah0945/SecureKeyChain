@@ -5,59 +5,118 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        .table-striped tbody tr:nth-of-type(odd) {
+            background-color: rgba(0, 0, 0, .05);
+        }
+        .btn-info:hover, .btn-warning:hover, .btn-danger:hover, .btn-secondary:hover {
+            opacity: 0.8;
+            transform: scale(1.05);
+            transition: transform 0.2s ease-in-out, opacity 0.2s ease-in-out;
+        }
+        .center-container {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: flex-start;
+          min-height: 100vh;
+          padding: 20px;
+          position: relative;
+        }
+        .center-content {
+            width: 90%;
+            max-width: 1200px;
+            padding: 20px;
+        }
+        h2, h3 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .table-responsive {
+            margin-top: 20px;
+            padding: 10px;
+        }
+        .logout-container{
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+        }
+        .btn-danger {
+            padding: 10px 20px;
+        }
+        .user-table th, .user-table td {
+            text-align: center; /* Center text in table cells */
+            vertical-align: middle; /* Center vertically */
+        }
+        .user-table th {
+            background-color: #f0f0f0; /* Light background for headers */
+            font-weight: bold;
+        }
+        .user-table td {
+            padding: 8px; /* Add padding to table cells */
+        }
+        .user-table tr:hover {
+            background-color: #e0e0e0; /* Light hover effect on rows */
+        }
+    </style>
     <script>
         function togglePassword(userId) {
             const passwordCell = document.getElementById(`password-${userId}`);
             if (passwordCell.innerText === '********') {
-                // Fetch the actual password (hashed) from the server
                 fetch(`/get_password/${userId}`)
                     .then(response => response.json())
                     .then(data => {
-                        passwordCell.innerText = data.password; // Display hashed password
+                        passwordCell.innerText = data.password;
                     });
             } else {
-                passwordCell.innerText = '********'; // Mask the password
+                passwordCell.innerText = '********';
             }
         }
     </script>
 </head>
 <body>
-    <div class="container mt-5">
-        <h2>Welcome, Admin {{ username }}!</h2>
-        <a href="{{ url_for('logout') }}" class="btn btn-danger mt-3">Logout</a>
-        
-        <h3 class="mt-4">Manage Users</h3>
-        <p>Total Registered Users: {{ users|length }}</p>
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Username</th>
-                    <th>Email</th>
-                    <th>Role</th>
-                    <th>Password</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for user in users %}
-                <tr>
-                    <td>{{ user.id }}</td>
-                    <td>{{ user.username }}</td>
-                    <td>{{ user.email }}</td>
-                    <td>{{ user.role }}</td>
-                    <td id="password-{{ user.id }}">********</td>
-                    <td>
-                        <!-- Corrected View Password button -->
-                        <button onclick="togglePassword({{ user.id }});" class="btn btn-info btn-sm">View Password</button>
-                        <a href="{{ url_for('update_user', id=user.id) }}" class="btn btn-warning btn-sm">Update</a>
-                        <a href="{{ url_for('delete_user', id=user.id) }}" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?');">Delete</a>
-                        <a href="{{ url_for('reset_password', user_id=user.id) }}" class="btn btn-secondary btn-sm">Reset Password</a>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+    <div class="center-container">
+        <div class="center-content">
+            <h2>Welcome, Admin {{ username }}!</h2>
+
+            <h3 class="mt-4">Manage Users</h3>
+            <p>Total Registered Users: {{ users|length }}</p>
+            <div class="table-responsive">
+                <table class="table table-striped user-table">
+                    <thead>
+                        <tr>
+                            <th>User ID</th>
+                            <th>User Name</th>
+                            <th>User Email</th>
+                            <th>User Role</th>
+                            <th>User Password</th>
+                            <th>User Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for user in users %}
+                        <tr>
+                            <td>{{ user.id }}</td>
+                            <td>{{ user.username }}</td>
+                            <td>{{ user.email }}</td>
+                            <td>{{ user.role }}</td>
+                            <td id="password-{{ user.id }}">********</td>
+                            <td>
+                                <button onclick="togglePassword({{ user.id }});" class="btn btn-info btn-sm">View Password</button>
+                                <a href="{{ url_for('update_user', id=user.id) }}" class="btn btn-warning btn-sm">Update</a>
+                                <a href="{{ url_for('delete_user', id=user.id) }}" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?');">Delete</a>
+                                <a href="{{ url_for('reset_password', user_id=user.id) }}" class="btn btn-secondary btn-sm">Reset Password</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="logout-container">
+            <a href="{{ url_for('logout') }}" class="btn btn-danger">Logout</a>
+        </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

@@ -1,0 +1,59 @@
+ /* General Styles */
+ body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f2f5;
+    /* Light gray background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+/* Container */
+.container {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 350px;
+}
+
+/* Headings */
+h2 {
+    color: #333;
+}
+
+/* Button Styles */
+.btn {
+    display: inline-block;
+    padding: 10px 15px;
+    margin: 10px;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+/* Cancel Button */
+.btn {
+    background-color: #6c757d;
+    color: white;
+}
+
+.btn:hover {
+    background-color: #5a6268;
+}
+
+/* Delete Button */
+.btn.logout {
+    background-color: #dc3545;
+    color: white;
+}
+
+.btn.logout:hover {
+    background-color: #c82333;
+}

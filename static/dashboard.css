@@ -1,0 +1,141 @@
+/* General Styling */
+body {
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(135deg, #e0f7ff, #cceeff);
+    margin: 0;
+    padding: 30px 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    color: #333;
+}
+
+/* Dashboard Container */
+.dashboard-card {
+    width: 90%;
+    max-width: 1100px;
+    background: rgba(255, 255, 255, 0.3);
+    padding: 40px;
+    border-radius: 16px;
+    backdrop-filter: blur(15px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+    margin-bottom: 60px;
+}
+
+.dashboard-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+}
+
+/* Headings */
+h2, h3 {
+    color: #007bff;
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 30px;
+    transition: transform 0.3s ease, text-shadow 0.3s ease;
+}
+
+h2:hover, h3:hover {
+    transform: scale(1.05);
+    text-shadow: 0 4px 10px rgba(0, 123, 255, 0.4);
+}
+
+/* Table Styling */
+.table-responsive {
+    margin-top: 30px;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.user-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.user-table th,
+.user-table td {
+    padding: 16px;
+    text-align: center;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    white-space: nowrap;
+}
+
+/* Table Head Styling */
+.user-table thead {
+    background: linear-gradient(135deg, #80caff, #5aa1e3);
+    color: white;
+    font-size: 17px;
+    font-weight: 600;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.user-table th {
+    padding: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-align: center;
+    transition: all 0.3s ease-in-out;
+    border-radius: 8px;
+}
+
+.user-table th:hover {
+    background: #5aa1e3;
+    transform: scale(1.03);
+}
+
+.user-table tbody tr:hover {
+    background-color: #f0f8ff;
+    transform: translateY(-2px);
+    transition: all 0.2s ease-in-out;
+}
+
+/* Button Container (Single Row Alignment) */
+.btn-group {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: nowrap;
+}
+
+/* Button Styling */
+.btn {
+    padding: 10px 16px;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 10px;
+    transition: transform 0.2s ease, box-shadow 0.3s ease;
+    border: none;
+    cursor: pointer;
+}
+
+.btn:hover {
+    transform: scale(1.08);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Logout Button Styling */
+.logout-container {
+    text-align: right;
+    margin-top: 40px;
+    padding-right: 20px;
+}
+
+.btn-logout {
+    background: linear-gradient(135deg, #ff4d4d, #ff0000);
+    color: white;
+    padding: 12px 20px;
+    font-size: 16px;
+    border-radius: 12px;
+}
+
+.btn-logout:hover {
+    background: linear-gradient(135deg, #ff0000, #cc0000);
+    box-shadow: 0 0 15px rgba(255, 77, 77, 0.6);
+}

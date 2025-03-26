@@ -1,0 +1,237 @@
+ /* General body styling */
+ body {
+    font-family: 'Inter', Arial, sans-serif;
+    /* 👈 Modern font added */
+    background: linear-gradient(135deg, #e0f7ff, #cceeff);
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    color: #333;
+}
+
+/* Center container styling */
+.center-container {
+    width: 96%;
+    /* 👈 2% kam kiya for better alignment */
+    max-width: 1200px;
+    background: rgba(255, 255, 255, 0.25);
+    padding: 25px;
+    border-radius: 16px;
+    backdrop-filter: blur(15px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Heading styling */
+h2,
+h3 {
+    color: #007bff;
+    font-weight: 600;
+    margin-bottom: 16px;
+    text-align: center;
+    transition: color 0.3s ease;
+}
+
+h2:hover,
+h3:hover {
+    color: #0056b3;
+    transform: translateY(-2px);
+    /* 👈 Slight lift effect */
+}
+
+/* Table container */
+.table-responsive {
+    border-radius: 12px;
+    overflow: hidden;
+    margin-top: 16px;
+}
+
+/* Table styling */
+.user-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0 auto;
+}
+
+.user-table th,
+.user-table td {
+    padding: 12px;
+    text-align: center;
+    font-size: 15px;
+    font-weight: 500;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    color: #333;
+    transition: background-color 0.3s ease;
+}
+
+.user-table thead {
+    background-color: #007bff;
+    color: #ffffff;
+    font-size: 16px;
+}
+
+/* Hover effect for table row */
+.user-table tbody tr:hover {
+    background-color: #f0f8ff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+/* Button container */
+.btn-group {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: nowrap;
+}
+
+/* Button styling */
+.btn {
+    padding: 10px 18px;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 8px;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+    border: none;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+/* Info button */
+.btn-info {
+    background: linear-gradient(135deg, #17a2b8, #138496);
+    color: #ffffff;
+}
+
+.btn-info:hover {
+    background: linear-gradient(135deg, #138496, #17a2b8);
+    box-shadow: 0 0 12px rgba(23, 162, 184, 0.5);
+    transform: scale(1.05);
+}
+
+/* Warning button */
+.btn-warning {
+    background: linear-gradient(135deg, #ffc107, #e0a800);
+    color: #212529;
+}
+
+.btn-warning:hover {
+    background: linear-gradient(135deg, #e0a800, #ffc107);
+    box-shadow: 0 0 12px rgba(255, 193, 7, 0.5);
+    transform: scale(1.05);
+}
+
+/* Danger button */
+.btn-danger {
+    background: linear-gradient(135deg, #dc3545, #c82333);
+    color: #ffffff;
+}
+
+.btn-danger:hover {
+    background: linear-gradient(135deg, #c82333, #dc3545);
+    box-shadow: 0 0 12px rgba(220, 53, 69, 0.5);
+    transform: scale(1.05);
+}
+
+/* Secondary button */
+.btn-secondary {
+    background: linear-gradient(135deg, #6c757d, #5a6268);
+    color: #ffffff;
+}
+
+.btn-secondary:hover {
+    background: linear-gradient(135deg, #5a6268, #6c757d);
+    box-shadow: 0 0 12px rgba(108, 117, 125, 0.5);
+    transform: scale(1.05);
+}
+
+/* Logout button to right side */
+.logout-container {
+    margin-top: 20px;
+    text-align: right;
+}
+
+.logout-container .btn-danger {
+    padding: 10px 20px;
+    font-size: 14px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #ff4d4d, #ff0000);
+    color: white;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.logout-container .btn-danger:hover {
+    background: linear-gradient(135deg, #ff0000, #cc0000);
+    box-shadow: 0 0 15px rgba(255, 77, 77, 0.5);
+    transform: scale(1.05);
+}
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+    .btn-group {
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .user-table thead {
+        display: none;
+    }
+
+    .user-table tr {
+        display: block;
+        margin-bottom: 12px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+    }
+
+    .user-table td {
+        display: block;
+        text-align: right;
+        font-size: 14px;
+        border-bottom: none;
+        padding: 10px;
+        position: relative;
+    }
+
+    .user-table td::before {
+        content: attr(data-label);
+        font-weight: 500;
+        position: absolute;
+        left: 10px;
+        color: #555;
+        text-transform: uppercase;
+    }
+
+    /* Logout button center on small screens */
+    .logout-container {
+        text-align: center;
+    }
+}
+
+/* Center container styling */
+.center-container {
+    width: 96%;
+    /* 👈 2% kam kiya for better alignment */
+    max-width: 1200px;
+    background: rgba(255, 255, 255, 0.25);
+    padding: 25px;
+    border-radius: 16px;
+    backdrop-filter: blur(15px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    border: 2px solid transparent;
+}
+
+/* ✅ New Hover Effect */
+.center-container:hover {
+    transform: translateY(-4px);
+    /* 👈 Slight lift effect */
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+    /* 👈 Soft deep shadow */
+    border-color: #007bff;
+    /* 👈 Border color blue highlight */
+}

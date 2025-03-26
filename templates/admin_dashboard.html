@@ -6,59 +6,195 @@
     <title>Admin Dashboard</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <style>
-        .table-striped tbody tr:nth-of-type(odd) {
-            background-color: rgba(0, 0, 0, .05);
+        /* General body styling */
+        body {
+            font-family: 'Poppins', Arial, sans-serif;
+            background: linear-gradient(135deg, #e0f7ff, #cceeff);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #333;
         }
-        .btn-info:hover, .btn-warning:hover, .btn-danger:hover, .btn-secondary:hover {
-            opacity: 0.8;
-            transform: scale(1.05);
-            transition: transform 0.2s ease-in-out, opacity 0.2s ease-in-out;
-        }
+    
+        /* Center container styling with glassmorphism effect */
         .center-container {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: flex-start;
-          min-height: 100vh;
-          padding: 20px;
-          position: relative;
+            width: 100%;
+            max-width: 1000px;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 30px;
+            border-radius: 20px;
+            backdrop-filter: blur(20px); /* Glassmorphism effect */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-        .center-content {
-            width: 90%;
-            max-width: 1200px;
-            padding: 20px;
+    
+        /* Hover effect for container */
+        .center-container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
         }
+    
+        /* Heading styling */
         h2, h3 {
-            text-align: center;
+            color: #007bff;
+            font-weight: 600;
             margin-bottom: 20px;
+            text-align: center;
         }
+    
+        /* Table styling */
         .table-responsive {
+            border-radius: 12px;
+            overflow: hidden;
             margin-top: 20px;
-            padding: 10px;
         }
-        .logout-container{
-            position: absolute;
-            bottom: 20px;
-            right: 20px;
+    
+        .user-table {
+            width: 100%;
+            border-collapse: collapse;
         }
-        .btn-danger {
-            padding: 10px 20px;
-        }
-        .user-table th, .user-table td {
-            text-align: center; /* Center text in table cells */
-            vertical-align: middle; /* Center vertically */
-        }
-        .user-table th {
-            background-color: #f0f0f0; /* Light background for headers */
-            font-weight: bold;
-        }
+    
+        .user-table th,
         .user-table td {
-            padding: 8px; /* Add padding to table cells */
+            padding: 14px;
+            text-align: center;
+            font-size: 16px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            color: #333;
         }
-        .user-table tr:hover {
-            background-color: #e0e0e0; /* Light hover effect on rows */
+    
+        .user-table thead {
+            background-color: #007bff;
+            color: #ffffff;
+        }
+    
+        /* Hover effect for table row */
+        .user-table tbody tr:hover {
+            background-color: #f0f8ff;
+            transition: background-color 0.2s ease;
+        }
+    
+        /* Button styling */
+        .btn {
+            padding: 10px 16px;
+            font-size: 14px;
+            font-weight: 500;
+            border-radius: 12px;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+            border: none;
+        }
+    
+        /* Info button */
+        .btn-info {
+            background-color: #17a2b8;
+            color: #ffffff;
+        }
+    
+        .btn-info:hover {
+            background-color: #138496;
+            box-shadow: 0 4px 10px rgba(23, 162, 184, 0.3);
+            transform: translateY(-2px);
+        }
+    
+        /* Warning button */
+        .btn-warning {
+            background-color: #ffc107;
+            color: #212529;
+        }
+    
+        .btn-warning:hover {
+            background-color: #e0a800;
+            box-shadow: 0 4px 10px rgba(255, 193, 7, 0.3);
+            transform: translateY(-2px);
+        }
+    
+        /* Danger button */
+        .btn-danger {
+            background-color: #dc3545;
+            color: #ffffff;
+        }
+    
+        .btn-danger:hover {
+            background-color: #c82333;
+            box-shadow: 0 4px 10px rgba(220, 53, 69, 0.3);
+            transform: translateY(-2px);
+        }
+    
+        /* Secondary button */
+        .btn-secondary {
+            background-color: #6c757d;
+            color: #ffffff;
+        }
+    
+        .btn-secondary:hover {
+            background-color: #5a6268;
+            box-shadow: 0 4px 10px rgba(108, 117, 125, 0.3);
+            transform: translateY(-2px);
+        }
+    
+        /* Logout button styling */
+        .logout-container {
+            margin-top: 20px;
+            text-align: center;
+        }
+    
+        .logout-container .btn-danger {
+            width: 150px;
+            font-size: 16px;
+            padding: 12px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #ff4d4d, #ff0000);
+            color: white;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+    
+        .logout-container .btn-danger:hover {
+            background: linear-gradient(135deg, #ff0000, #cc0000);
+            box-shadow: 0 0 12px rgba(255, 77, 77, 0.5);
+            transform: translateY(-3px);
+        }
+    
+        /* Responsive table */
+        @media (max-width: 768px) {
+            .user-table thead {
+                display: none;
+            }
+    
+            .user-table tr {
+                display: block;
+                margin-bottom: 12px;
+                border: 1px solid #ddd;
+                border-radius: 8px;
+            }
+    
+            .user-table td {
+                display: block;
+                text-align: right;
+                font-size: 14px;
+                border-bottom: none;
+                padding: 10px;
+                position: relative;
+            }
+    
+            .user-table td::before {
+                content: attr(data-label);
+                font-weight: 500;
+                position: absolute;
+                left: 10px;
+                color: #555;
+                text-transform: uppercase;
+            }
+    
+            .btn {
+                width: 100%;
+                margin-bottom: 8px;
+            }
         }
     </style>
+    
     <script>
         function togglePassword(userId) {
             const passwordCell = document.getElementById(`password-${userId}`);

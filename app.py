@@ -346,7 +346,7 @@ def add_credential():
         db.session.commit()
 
         flash('Credential added successfully!', 'success')
-        return redirect(url_for('view_credentials'))
+        return redirect(url_for('dashboard'))
 
     return render_template('add_credential.html')
 

@@ -3,6 +3,8 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from flask_migrate import Migrate
+from cryptography.fernet import Fernet
+from dotenv import load_dotenv
 from Crypto.Cipher import AES
 from Crypto.Util.Padding import pad, unpad
 import base64
@@ -10,20 +12,24 @@ import logging
 import os
 
 # Initialize logging
-logging.basicConfig(level=logging.DEBUG)
+# logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.WARNING)
+
 
 # Initialize Flask App
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'your_secret_key'
 
-# Configure Database (PostgreSQL or SQLite)
-USE_POSTGRES = True  # Set to False to use SQLite
-if USE_POSTGRES:
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:root1234@localhost/passdmgr'
+# Configure Database (MySQL or SQLite)
+USE_MYSQL = True  # Set to False to use SQLite
+
+if USE_MYSQL:
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:Sinha%40123@localhost/passdmgr'
 else:
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
 
 # Initialize Extensions
 db = SQLAlchemy(app)
@@ -83,8 +89,8 @@ class Credential(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     site_name = db.Column(db.String(100), nullable=False)
     username = db.Column(db.String(100), nullable=False)
-    password = db.Column(db.String(128), nullable=False)  # Hashed password
-    encrypted_password = db.Column(db.String(256), nullable=False)  # Encrypted password
+    # password = db.Column(db.String(128), nullable=False)  # Hashed password
+    encrypted_password = db.Column(db.Text, nullable=False)  # Encrypted password
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     user = db.relationship('User', backref=db.backref('credentials', lazy=True))
 
@@ -92,7 +98,7 @@ class Credential(db.Model):
 with app.app_context():
     credentials = Credential.query.all()
     for credential in credentials:
-        credential.encrypted_password = encrypt_password(credential.password)
+        credential.encrypted_password = encrypt_password(credential.encrypted_password)
         db.session.commit()
 
 # User Loader for Flask-Login
@@ -133,6 +139,37 @@ def register():
 
     return render_template('register.html')
 
+# admin_login
+@app.route('/admin_login', methods=['GET', 'POST'])
+def admin_login():
+    if request.method == 'POST':
+        email = request.form['email']
+        password = request.form['password']
+
+        # Look for a user with admin role and matching email
+        user = User.query.filter_by(email=email, role='admin').first()
+        
+        if user and bcrypt.check_password_hash(user.password, password):
+            login_user(user)
+            flash('Admin login successful!', 'success')
+            return redirect(url_for('admin_dashboard'))
+        else:
+            flash('Invalid admin credentials', 'danger')
+
+    return render_template('admin_login.html')
+
+# admin_dashboard
+@app.route('/admin_dashboard')
+@login_required
+def admin_dashboard():
+    if current_user.role != 'admin':
+        flash("Unauthorized access", "danger")
+        return redirect(url_for('dashboard'))
+
+    users = User.query.all()
+    return render_template('admin_dashboard.html', username=current_user.username, users=users)
+
+
 # Login Route
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -144,14 +181,21 @@ def login():
         password = request.form.get('password')
 
         user = User.query.filter_by(email=email).first()
-        if user and bcrypt.check_password_hash(user.password, password):
-            login_user(user)
-            flash('Login successful!', 'success')
-            return redirect(url_for('dashboard'))
-        else:
-            flash('Invalid email or password', 'danger')
+
+        if user:
+            if user.role == 'admin':
+                flash('Admins must log in through the Admin Login page.', 'warning')
+                return redirect(url_for('login'))
+
+            if bcrypt.check_password_hash(user.password, password):
+                login_user(user)
+                flash('Login successful!', 'success')
+                return redirect(url_for('dashboard'))
+
+        flash('Invalid email or password', 'danger')
 
     return render_template('login.html')
+
 
 # Dashboard Route
 @app.route('/dashboard')
@@ -270,29 +314,32 @@ def reset_password(user_id):
     return render_template('reset_password.html', user=user)
 
 # Add Credential Route
+key = "this_is_a_fixed_32_byte_key_1234"
+key_bytes = key.encode()  # convert str to bytes
+encoded_key = base64.urlsafe_b64encode(key_bytes)  # now safe
+fernet = Fernet(encoded_key)
+
+# Add Credential Route
 @app.route('/add_credential', methods=['GET', 'POST'])
 @login_required
 def add_credential():
     if request.method == 'POST':
         site_name = request.form.get('site_name')
         username = request.form.get('username')
-        password = request.form.get('password')
+        password = request.form.get('password')  # Get plain password from form
 
         if not site_name or not username or not password:
             flash('All fields are required!', 'danger')
             return redirect(url_for('add_credential'))
 
-        # Hash the password for secure storage
-        hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
+        # Encrypt the password for secure storage (permanent)
+        encrypted_password = fernet.encrypt(password.encode()).decode('utf-8')
 
-        # Encrypt the password for temporary viewing
-        encrypted_password = encrypt_password(password)
-
+        # Create new credential record
         new_credential = Credential(
             site_name=site_name,
             username=username,
-            password=hashed_password,  # Store the hashed password
-            encrypted_password=encrypted_password,  # Store the encrypted password
+            encrypted_password=encrypted_password,
             user_id=current_user.id
         )
 
@@ -314,12 +361,12 @@ def get_original_password(credential_id):
         return jsonify({"error": "Access denied!"}), 403
 
     try:
-        # Decrypt the password
-        original_password = decrypt_password(credential.encrypted_password)
+        original_password = fernet.decrypt(credential.encrypted_password.encode()).decode()
         return jsonify({"password": original_password})
-    except ValueError as e:
-        logging.error(f"Failed to decrypt password for credential {credential_id}: {e}")
-        return jsonify({"error": str(e)}), 400
+    except Exception as e:
+        logging.error(f"Decryption error: {e}")
+        return jsonify({"error": "Failed to decrypt password."}), 400
+
 
 # View Credentials Route
 @app.route('/view_credentials')
@@ -352,7 +399,7 @@ def update_credential(credential_id):
 
         credential.site_name = site_name
         credential.username = username
-        credential.password = hashed_password
+        credential.encrypted_password = hashed_password
 
         db.session.commit()
         flash('Credential updated successfully!', 'success')
@@ -384,7 +431,7 @@ def get_credential_password(credential_id):
     if credential.user_id != current_user.id:
         return jsonify({"error": "Access denied!"}), 403
 
-    return jsonify({"password": credential.password})  # Return hashed password
+    return jsonify({"password": credential.encrypted_password})  # Return hashed password
 
 # Run the App
 if __name__ == '__main__':

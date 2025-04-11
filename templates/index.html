@@ -2,18 +2,95 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <title>Home Password Manager</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home - Password Manager</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <link rel="stylesheet" href="/static/index.css">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background: linear-gradient(to bottom right, #dbefff, #cce7ff);
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbar-brand {
+            font-weight: 600;
+        }
+
+        .navbar-nav .nav-link {
+            margin-left: 15px;
+            font-weight: 500;
+        }
+
+        .center-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 80vh;
+        }
+
+        .card-box {
+            background: white;
+            padding: 40px 50px;
+            border-radius: 15px;
+            box-shadow: 0px 4px 25px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .card-box h2 {
+            font-weight: 700;
+            margin-bottom: 30px;
+        }
+
+        .card-box a.btn {
+            display: block;
+            width: 100%;
+            margin: 10px auto;
+            padding: 10px;
+            font-weight: 600;
+            color: white;
+            background: linear-gradient(to right, #007bff, #003580);
+            border: none;
+            border-radius: 10px;
+            transition: background 0.3s ease;
+            text-decoration: none;
+        }
+
+        .card-box a.btn:hover {
+            background: linear-gradient(to right, #0056b3, #001c4d);
+        }
+
+        footer {
+            background-color: #f8f9fa;
+            padding: 10px 0;
+            text-align: center;
+            font-size: 14px;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Welcome to Password Manager</h1>
-        <div class="buttons">
+
+    {% include 'header.html' %}
+
+    <div class="center-container">
+        <div class="card-box">
+            <h2 style="font-weight:700; margin-bottom:30px;">
+                <marquee behavior="scroll" direction="left">Welcome to Password Manager</marquee>
+            </h2>
+            
             <a href="{{ url_for('login') }}" class="btn">Login</a>
             <a href="{{ url_for('register') }}" class="btn">Register</a>
         </div>
     </div>
+
+    {% include 'footer.html' %}
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

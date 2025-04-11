@@ -20,11 +20,10 @@ logging.basicConfig(level=logging.WARNING)
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'your_secret_key'
 
-# Configure Database (MySQL or SQLite)
-USE_MYSQL = True  # Set to False to use SQLite
-
-if USE_MYSQL:
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:Sinha%40123@localhost/passdmgr'
+# Configure Database (PostgreSQL or SQLite)
+USE_POSTGRES = True  # Set to False to use SQLite
+if USE_POSTGRES:
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:root1234@localhost/passdmgr'
 else:
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 

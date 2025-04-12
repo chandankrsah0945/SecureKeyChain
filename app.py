@@ -110,6 +110,10 @@ def load_user(user_id):
 def home():
     return render_template('index.html')
 
+@app.route('/')
+def index():
+    return render_template('index.html')
+
 # Register Route
 @app.route('/register', methods=['GET', 'POST'])
 def register():

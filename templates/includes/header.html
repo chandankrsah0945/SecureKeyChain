@@ -1,0 +1,39 @@
+<!-- templates/includes/header.html -->
+<header class="app-header">
+    <div class="header-container">
+        <div class="logo-container">
+            <div class="logo-icon">
+                <svg viewBox="0 0 24 24" class="lock-icon">
+                    <path fill="#4285F4" d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/>
+                </svg>
+            </div>
+            <h1 class="logo-text">SecurePass</h1>
+        </div>
+        
+        <div class="search-container">
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Search passwords...">
+                <button class="search-clear">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+        
+        <div class="user-actions">
+            <div class="user-profile">
+                <div class="avatar">
+                    <i class="fas fa-user-circle"></i>
+                </div>
+                <div class="user-name">{{ current_user.username }}</div>
+                <i class="fas fa-chevron-down dropdown-arrow"></i>
+                
+                <div class="dropdown-menu">
+                    <a href="{{ url_for('dashboard') }}"><i class="fas fa-user"></i> Profile</a>
+                    <a href="{{ url_for('settings') }}"><i class="fas fa-cog"></i> Settings</a>
+                    <a href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SecurePass - Password Manager</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="app-header">
+        <div class="header-container">
+            <div class="logo-container">
+                <i class="fas fa-lock"></i>
+                <h1>SecurePass</h1>
+            </div>
+            <div class="search-container">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Search passwords...">
+            </div>
+            <div class="user-menu">
+                <div class="user-avatar">CS</div>
+                <span class="user-name">Chandan Kumar</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="app-container">
+        <!-- Side Navigation -->
+        <nav class="app-nav">
+            <ul class="nav-menu">
+                <li class="active">
+                    <a href="#">
+                        <i class="fas fa-key"></i>
+                        <span>Passwords</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fas fa-plus-circle"></i>
+                        <span>Add Password</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fas fa-shield-alt"></i>
+                        <span>Security Check</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fas fa-cog"></i>
+                        <span>Settings</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Content Area -->
+        <main class="app-main">
+            <div class="content-header">
+                <h2>Saved Passwords</h2>
+                <button class="btn btn-primary">
+                    <i class="fas fa-plus"></i> Add Password
+                </button>
+            </div>
+
+            <!-- Password List -->
+            <div class="password-list">
+                <div class="password-item">
+                    <div class="password-icon">
+                        <i class="fab fa-google"></i>
+                    </div>
+                    <div class="password-details">
+                        <h3>Google Account</h3>
+                        <p>chandan@example.com</p>
+                    </div>
+                    <div class="password-actions">
+                        <button class="btn btn-icon view-password">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <button class="btn btn-icon">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn btn-icon">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+                <!-- More password items would go here -->
+            </div>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+        <div class="footer-container">
+            <div class="footer-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">Help Center</a>
+            </div>
+            <div class="footer-copyright">
+                © 2023 SecurePass. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Password View Modal -->
+    <div class="modal" id="passwordModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Password Details</h3>
+                <button class="btn btn-icon close-modal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="password-info">
+                    <div class="info-row">
+                        <i class="fas fa-globe"></i>
+                        <span>google.com</span>
+                    </div>
+                    <div class="info-row">
+                        <i class="fas fa-user"></i>
+                        <span>chandan@example.com</span>
+                    </div>
+                    <div class="info-row">
+                        <i class="fas fa-key"></i>
+                        <div class="password-field">
+                            <input type="password" value="mypassword123" readonly>
+                            <button class="btn btn-icon toggle-password">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            <button class="btn btn-icon copy-password">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/script.js"></script>
+</body>
+</html>

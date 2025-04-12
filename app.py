@@ -15,7 +15,6 @@ import os
 # logging.basicConfig(level=logging.DEBUG)
 logging.basicConfig(level=logging.WARNING)
 
-
 # Initialize Flask App
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'your_secret_key'
@@ -28,7 +27,6 @@ else:
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
 
 # Initialize Extensions
 db = SQLAlchemy(app)
@@ -108,10 +106,6 @@ def load_user(user_id):
 # Home Route
 @app.route('/')
 def home():
-    return render_template('index.html')
-
-@app.route('/')
-def index():
     return render_template('index.html')
 
 # Register Route
@@ -294,9 +288,22 @@ def get_password(user_id):
         return jsonify({"error": "User not found!"}), 404
 
 # Reset Password Route (Admin Only)
+@app.route('/reset_password', methods=['GET', 'POST'])
 @app.route('/reset_password/<int:user_id>', methods=['GET', 'POST'])
 @login_required
-def reset_password(user_id):
+def reset_password(user_id=None):
+    if user_id is None:
+        # Handle case where no user_id is provided (for non-admin users)
+        if request.method == 'POST':
+            new_password = request.form.get('new_password')
+            if new_password:
+                current_user.password = bcrypt.generate_password_hash(new_password).decode('utf-8')
+                db.session.commit()
+                flash('Password updated successfully!', 'success')
+                return redirect(url_for('dashboard'))
+        return render_template('reset_password.html', user=current_user)
+    
+    # Original admin functionality
     if current_user.role != 'admin':
         flash('Access denied!', 'danger')
         return redirect(url_for('dashboard'))
@@ -350,7 +357,7 @@ def add_credential():
         db.session.commit()
 
         flash('Credential added successfully!', 'success')
-        return redirect(url_for('dashboard'))
+        return redirect(url_for('view_credentials'))
 
     return render_template('add_credential.html')
 

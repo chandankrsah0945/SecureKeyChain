@@ -1,0 +1,67 @@
+<!-- templates/includes/navbar.html -->
+<nav class="app-nav">
+    <div class="nav-header">
+        <div class="logo-container">
+            <div class="logo-icon">
+                <svg viewBox="0 0 24 24" class="lock-icon">
+                    <path fill="#4285F4" d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/>
+                </svg>
+            </div>
+            <h1 class="logo-text">SecurePass</h1>
+        </div>
+    </div>
+    
+    <ul class="nav-menu">
+        <li>
+            <a href="{{ url_for('dashboard') }}" class="nav-link">
+                <i class="fas fa-home"></i>
+                <span>Dashboard</span>
+                <span class="nav-tooltip">View your dashboard</span>
+            </a>
+        </li>
+        <li>
+            <a href="{{ url_for('view_credentials') }}" class="nav-link">
+                <i class="fas fa-key"></i>
+                <span>Passwords</span>
+                <span class="nav-badge">{{ credentials|length if credentials else 0 }}</span>
+                <span class="nav-tooltip">Manage your saved passwords</span>
+            </a>
+        </li>
+        <li class="nav-highlight">
+            <a href="{{ url_for('add_credential') }}" class="nav-link add-password-link">
+                <i class="fas fa-plus-circle"></i>
+                <span>Add Password</span>
+                <span class="nav-tooltip">Create new password entry</span>
+            </a>
+        </li>
+        <li>
+            <a href="{{ url_for('password_checkup') }}" class="nav-link">
+                <i class="fas fa-shield-alt"></i>
+                <span>Security</span>
+                <span class="nav-tooltip">Check password strength</span>
+            </a>
+        </li>
+        <li>
+            <a href="{{ url_for('settings') }}" class="nav-link">
+                <i class="fas fa-cog"></i>
+                <span>Settings</span>
+                <span class="nav-tooltip">Configure your preferences</span>
+            </a>
+        </li>
+    </ul>
+    
+    <div class="user-profile">
+        <div class="user-info">
+            <div class="user-avatar">
+                <i class="fas fa-user-circle"></i>
+            </div>
+            <div class="user-details">
+                <div class="user-name">{{ current_user.username }}</div>
+                <div class="user-role">Premium Member</div>
+            </div>
+        </div>
+        <a href="{{ url_for('logout') }}" class="logout-btn" title="Logout">
+            <i class="fas fa-sign-out-alt"></i>
+        </a>
+    </div>
+</nav>
